@@ -18,12 +18,18 @@ stages:
       - job: buildjob        
         steps:
           - checkout: ReleaseNotesGenerator
-          - task: CmdLine@2
-            displayName: 'List files'
-            inputs:
-              script: |
-                dir /a-D /S /B
-              workingDirectory: '$(Build.ArtifactStagingDirectory)'
+          - powershell: |
+            Write-Host "Show all folder content"
+            Get-ChildItem -Path $(Agent.WorkFolder)\*.* -Recurse -Force
+            errorActionPreference: continue
+            displayName: 'PowerShell Script List folder structure'
+            continueOnError: true
+          # - task: CmdLine@2
+          #   displayName: 'List files'
+          #   inputs:
+          #     script: |
+          #       dir /a-D /S /B
+          #     workingDirectory: '$(Build.ArtifactStagingDirectory)'
   - stage: Devv
     jobs:
       - job: manualValidation
