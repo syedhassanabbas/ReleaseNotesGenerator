@@ -17,7 +17,7 @@ stages:
     jobs:
       - job: buildjob        
         steps:
-          - checkout: none
+          - checkout: ReleaseNotesGenerator
 
   - stage: Devv
     jobs:
