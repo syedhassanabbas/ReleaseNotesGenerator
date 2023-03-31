@@ -32,7 +32,8 @@ stages:
     jobs:
       - deployment: DeployWeb
         displayName: deploy Web App
-        pool: Default        
+        pool: Default  
+        environment: 'Devv'
         strategy:
           # default deployment strategy 
           runOnce:
@@ -70,6 +71,7 @@ stages:
       - deployment: DeployWeb
         displayName: deploy Web App
         pool: Default        
+        environment: 'Test'
         strategy:
           # default deployment strategy 
           runOnce:
@@ -83,7 +85,8 @@ stages:
     jobs:
       - deployment: DeployWeb
         displayName: deploy Web App
-        pool: Default        
+        pool: Default       
+        environment: 'Stag'
         strategy:
           # default deployment strategy 
           runOnce:
@@ -97,7 +100,8 @@ stages:
     jobs:
       - deployment: DeployWeb
         displayName: deploy Web App
-        pool: Default        
+        pool: Default  
+        environment: 'Prod'
         strategy:
           # default deployment strategy 
           runOnce:
