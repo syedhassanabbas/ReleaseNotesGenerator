@@ -72,8 +72,8 @@ stages:
               steps:
               - script: echo my Test deployment
               - template: generate-wiki-docs.yml
-              parameters:
-              environmentName: "Test"
+                parameters:
+                  environmentName: "Test"
   - stage: Stag
     jobs:
       - deployment: DeployWeb
@@ -86,8 +86,8 @@ stages:
               steps:
               - script: echo my Test deployment
               - template: generate-wiki-docs.yml
-              parameters:
-              environmentName: "stag"
+                parameters:
+                  environmentName: "stag"
   - stage: Prod
     jobs:
       - deployment: DeployWeb
@@ -100,5 +100,5 @@ stages:
               steps:
               - script: echo my Prod deployment
               - template: generate-wiki-docs.yml
-              parameters:
-              environmentName: "Prod"
+                parameters:
+                  environmentName: "Prod"
