@@ -6,10 +6,12 @@ resources:
       type: github
       endpoint: syedhassanabbas
       name: syedhassanabbas/ReleaseNotesGenerator
-      ref: refs/heads/main
+#     ref: refs/heads/main
+      ref: refs/heads/Generate-release-notes-for-each-envirnment
 
 trigger:
 - main
+- Generate-release-notes-for-each-envirnment
 
 pool: Default
 
