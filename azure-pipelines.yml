@@ -30,13 +30,18 @@ stages:
             continueOnError: true
   - stage: Devv
     jobs:
-      - job: Display Stage Name
-        displayName: eco Dev
-        pool: server    
-
-        steps:   
-        - bash: |
-            echo Dev Stage
+      - deployment: DeployWeb
+        displayName: deploy Web App
+        pool: Default        
+        strategy:
+          # default deployment strategy 
+          runOnce:
+            deploy:
+              steps:
+              - script: echo my Test deployment
+              - template: generate-wiki-docs.yml
+                parameters:
+                  environmentName: "Devv"
 
       #   - task: WikiUpdaterTask@1
       #   displayName: 'Git based WIKI Updater'
