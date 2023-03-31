@@ -141,7 +141,9 @@ stages:
                           -  **File path (TFVC or TfsGit):** {{this.item.path}}  
                           -  **File filename (GitHub):** {{this.filename}}  
                     {{/forEach}}
-                    {{/forEach}}
+                    {{/forEach}}            
+              - publish: '$(System.DefaultWorkingDirectory)inline.md'
+                artifact: ReleaseNotes-test
   - stage: Stag
     jobs:
       - job: manualValidation
