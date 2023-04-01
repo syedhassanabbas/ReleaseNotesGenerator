@@ -1,0 +1,104 @@
+parameters:
+# - name: workingDirectory    
+#   type: string
+# - name: wikiFilename           
+#   type: string
+# - name: repo                   
+#   type: string
+# - name: GitName                   
+#   type: string
+# - name: GitEmail                   
+#   type: string
+# - name: GitHubPat                   
+#   type: string
+# - name: UserName
+#   type: string
+- name: environmentName
+  type: string
+
+steps:  
+- task: XplatGenerateReleaseNotes@4
+  displayName: 'Generate Release Notes'
+  inputs:
+    outputfile: '$(System.DefaultWorkingDirectory)inline-$(environmentName).md'
+    outputVariableName: OutputText
+    templateLocation: InLine
+    inlinetemplate: |
+      # Notes for build 
+      **Build Number**: {{buildDetails.id}}
+      **Build Trigger PR Number**: {{lookup buildDetails.triggerInfo 'pr.number'}} 
+
+      # Associated Pull Requests ({{pullRequests.length}})
+      {{#forEach pullRequests}}
+      {{#if isFirst}}### Associated Pull Requests (only shown if  PR) {{/if}}
+      *  **PR {{this.id}}**  {{this.title}}
+      {{/forEach}}
+
+      # Builds with associated WI/CS ({{builds.length}})
+      {{#forEach builds}}
+      {{#if isFirst}}## Builds {{/if}}
+      ##  Build {{this.build.buildNumber}}
+      {{#forEach this.commits}}
+      {{#if isFirst}}### Commits {{/if}}
+      - CS {{this.id}}
+      {{/forEach}}
+      {{#forEach this.workitems}}
+      {{#if isFirst}}### Workitems {{/if}}
+      - WI {{this.id}}
+      {{/forEach}} 
+      {{/forEach}}
+
+      # Global list of WI ({{workItems.length}})
+      {{#forEach workItems}}
+      {{#if isFirst}}## Associated Work Items (only shown if  WI) {{/if}}
+      *  **{{this.id}}**  {{lookup this.fields 'System.Title'}}
+        - **WIT** {{lookup this.fields 'System.WorkItemType'}} 
+        - **Tags** {{lookup this.fields 'System.Tags'}}
+      {{/forEach}}
+
+      {{#forEach commits}}
+      {{#if isFirst}}### Associated commits{{/if}}
+      * ** ID{{this.id}}** 
+        -  **Message:** {{this.message}}
+        -  **Commited by:** {{this.author.displayName}} 
+        -  **FileCount:** {{this.changes.length}} 
+      {{#forEach this.changes}}
+            -  **File path (TFVC or TfsGit):** {{this.item.path}}  
+            -  **File filename (GitHub):** {{this.filename}}  
+      {{/forEach}}
+      {{/forEach}}            
+- publish: '$(System.DefaultWorkingDirectory)inline-$(environmentName).md'
+  artifact: ReleaseNotes-$(environmentName)
+# - task: richardfennellBM.BM-VSTS-YAMLGenerator-DEV.YamlGeneratorTask.GenerateYAMLTask@2
+#   displayName: 'YAML Documentation Generator'
+#   inputs:
+#     inDir: '${{parameters.workingDirectory}}'     
+#     outDir: '${{parameters.workingDirectory}}/out'
+#     filePrefix: '${{parameters.wikiFilename}}'    
+#     copyReadme: true
+
+# - task: richardfennellBM.BM-VSTS-WIKIUpdater-Tasks-DEV.WikiUpdaterTask.WikiUpdaterTask@2
+#   displayName: 'Git based WIKI Updater - Readme'
+#   inputs:
+#     repo: '${{parameters.repo}}'
+#     filename: '${{parameters.wikiFilename}}.md'
+#     dataIsFile: true
+#     sourceFile: '${{parameters.workingDirectory}}/out/${{parameters.wikiFilename}}.md'
+#     message: 'Update the ${{parameters.wikiFilename}} Release Notes Readme'
+#     gitname: '${{parameters.GitName}}'
+#     gitemail: '${{parameters.GitEmail}}'
+#     user: '${{parameters.UserName}}'
+#     password: '${{parameters.GitHubPat}}'
+
+# - task: richardfennellBM.BM-VSTS-WIKIUpdater-Tasks-DEV.WikiUpdaterTask.WikiUpdaterTask@2
+#   displayName: 'Git based WIKI Updater - YAML '
+#   inputs:
+#     repo: '${{parameters.repo}}'
+#     filename: '${{parameters.wikiFilename}}-YAML.md'
+#     dataIsFile: true
+#     sourceFile: '${{parameters.workingDirectory}}/out/${{parameters.wikiFilename}}-YAML.md'
+#     message: 'Update the ${{parameters.wikiFilename}} Release Notes YAML'
+#     gitname: '${{parameters.GitName}}'
+#     gitemail: '${{parameters.GitEmail}}'
+#     user: '${{parameters.UserName}}'
+#     password: '${{parameters.GitHubPat}}'

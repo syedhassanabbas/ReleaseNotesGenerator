@@ -1,13 +1,17 @@
+name: $(Major).$(Minor).$(rev:r) 
+
 resources:
   repositories:
     - repository: ReleaseNotesGenerator
       type: github
       endpoint: syedhassanabbas
       name: syedhassanabbas/ReleaseNotesGenerator
-      ref: refs/heads/main
+#     ref: refs/heads/main
+      ref: refs/heads/Generate-release-notes-for-each-envirnment
 
 trigger:
 - main
+- Generate-release-notes-for-each-envirnment
 
 pool: Default
 
@@ -24,26 +28,21 @@ stages:
             errorActionPreference: continue
             displayName: 'PowerShell Script List folder structure'
             continueOnError: true
-          # - task: CmdLine@2
-          #   displayName: 'List files'
-          #   inputs:
-          #     script: |
-          #       dir /a-D /S /B
-          #     workingDirectory: '$(Build.ArtifactStagingDirectory)'
   - stage: Devv
     jobs:
-      - job: manualValidation
-        displayName: Validate Infra Changes on Dev
-        pool: server    
-        timeoutInMinutes: 4320 # job times out in 3 days
-        steps:   
-        - task: ManualValidation@0
-          timeoutInMinutes: 1440 # task times out in 1 day
-          inputs:
-              notifyUsers: |
-                  [HassanAbbasShahSoftLTD]\Project DevOps Engineer
-              instructions: 'Please validate the terraform plan and resume'
-              onTimeout: 'resume'
+      - deployment: DeployWeb
+        displayName: deploy Web App
+        pool: Default  
+        environment: 'Devv'
+        strategy:
+          # default deployment strategy 
+          runOnce:
+            deploy:
+              steps:
+              - script: echo my Test deployment
+              - template: generate-wiki-docs.yml
+                parameters:
+                  environmentName: "Devv"
 
       #   - task: WikiUpdaterTask@1
       #   displayName: 'Git based WIKI Updater'
@@ -69,22 +68,9 @@ stages:
       #         - script: echo my Devv deployment
   - stage: Test
     jobs:
-      - job: manualValidation
-        displayName: Validate Infra Changes on Test  
-        pool: server    
-        timeoutInMinutes: 4320 # job times out in 3 days
-        steps:   
-        - task: ManualValidation@0
-          timeoutInMinutes: 1440 # task times out in 1 day
-          inputs:
-              notifyUsers: |
-                  [HassanAbbasShahSoftLTD]\Project DevOps Engineer
-              instructions: 'Please validate the terraform plan and resume'
-              onTimeout: 'resume'
-
       - deployment: DeployWeb
         displayName: deploy Web App
-        pool: Default
+        pool: Default        
         environment: 'Test'
         strategy:
           # default deployment strategy 
@@ -92,76 +78,14 @@ stages:
             deploy:
               steps:
               - script: echo my Test deployment
-              - task: XplatGenerateReleaseNotes@4
-                displayName: 'Generate Release Notes'
-                inputs:
-                  outputfile: '$(System.DefaultWorkingDirectory)inline.md'
-                  outputVariableName: OutputText
-                  templateLocation: InLine
-                  inlinetemplate: |
-                    # Notes for build 
-                    **Build Number**: {{buildDetails.id}}
-                    **Build Trigger PR Number**: {{lookup buildDetails.triggerInfo 'pr.number'}} 
-
-                    # Associated Pull Requests ({{pullRequests.length}})
-                    {{#forEach pullRequests}}
-                    {{#if isFirst}}### Associated Pull Requests (only shown if  PR) {{/if}}
-                    *  **PR {{this.id}}**  {{this.title}}
-                    {{/forEach}}
-
-                    # Builds with associated WI/CS ({{builds.length}})
-                    {{#forEach builds}}
-                    {{#if isFirst}}## Builds {{/if}}
-                    ##  Build {{this.build.buildNumber}}
-                    {{#forEach this.commits}}
-                    {{#if isFirst}}### Commits {{/if}}
-                    - CS {{this.id}}
-                    {{/forEach}}
-                    {{#forEach this.workitems}}
-                    {{#if isFirst}}### Workitems {{/if}}
-                    - WI {{this.id}}
-                    {{/forEach}} 
-                    {{/forEach}}
-
-                    # Global list of WI ({{workItems.length}})
-                    {{#forEach workItems}}
-                    {{#if isFirst}}## Associated Work Items (only shown if  WI) {{/if}}
-                    *  **{{this.id}}**  {{lookup this.fields 'System.Title'}}
-                      - **WIT** {{lookup this.fields 'System.WorkItemType'}} 
-                      - **Tags** {{lookup this.fields 'System.Tags'}}
-                    {{/forEach}}
-
-                    {{#forEach commits}}
-                    {{#if isFirst}}### Associated commits{{/if}}
-                    * ** ID{{this.id}}** 
-                      -  **Message:** {{this.message}}
-                      -  **Commited by:** {{this.author.displayName}} 
-                      -  **FileCount:** {{this.changes.length}} 
-                    {{#forEach this.changes}}
-                          -  **File path (TFVC or TfsGit):** {{this.item.path}}  
-                          -  **File filename (GitHub):** {{this.filename}}  
-                    {{/forEach}}
-                    {{/forEach}}            
-              - publish: '$(System.DefaultWorkingDirectory)inline.md'
-                artifact: ReleaseNotes-test
+              - template: generate-wiki-docs.yml
+                parameters:
+                  environmentName: "Test"
   - stage: Stag
     jobs:
-      - job: manualValidation
-        displayName: Validate Infra Changes on Staging  
-        pool: server    
-        timeoutInMinutes: 4320 # job times out in 3 days
-        steps:   
-        - task: ManualValidation@0
-          timeoutInMinutes: 1440 # task times out in 1 day
-          inputs:
-              notifyUsers: |
-                  [HassanAbbasShahSoftLTD]\Operational DevOps Engineer
-              instructions: 'Please validate the terraform plan and resume'
-              onTimeout: 'resume'
-
       - deployment: DeployWeb
         displayName: deploy Web App
-        pool: Default
+        pool: Default       
         environment: 'Stag'
         strategy:
           # default deployment strategy 
@@ -169,28 +93,21 @@ stages:
             deploy:
               steps:
               - script: echo my Test deployment
+              - template: generate-wiki-docs.yml
+                parameters:
+                  environmentName: "stag"
   - stage: Prod
     jobs:
-      - job: manualValidation
-        displayName: Validate Infra Changes on Production  
-        pool: server    
-        timeoutInMinutes: 4320 # job times out in 3 days
-        steps:   
-        - task: ManualValidation@0
-          timeoutInMinutes: 1440 # task times out in 1 day
-          inputs:
-              notifyUsers: |
-                  [HassanAbbasShahSoftLTD]\Operational DevOps Engineer
-              instructions: 'Please validate the terraform plan and resume'
-              onTimeout: 'resume'
-
       - deployment: DeployWeb
         displayName: deploy Web App
-        pool: Default
+        pool: Default  
         environment: 'Prod'
         strategy:
           # default deployment strategy 
           runOnce:
             deploy:
               steps:
-              - script: echo my Test deployment
+              - script: echo my Prod deployment
+              - template: generate-wiki-docs.yml
+                parameters:
+                  environmentName: "Prod"
