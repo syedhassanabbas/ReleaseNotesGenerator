@@ -69,7 +69,7 @@ steps:
       {{/forEach}}            
 - publish: '$(System.DefaultWorkingDirectory)inline-${{parameters.environmentName}}.md'
   artifact: ReleaseNotes-${{parameters.environmentName}}
-  - task: PublishPipelineArtifact@1
+- task: PublishPipelineArtifact@1
   inputs:
     targetPath: '$(System.DefaultWorkingDirectory)inline-${{parameters.environmentName}}.md'
     artifactType: 'pipeline'
