@@ -40,6 +40,7 @@ stages:
               - script: echo my Test deployment
               - template: generate-wiki-docs.yml
                 parameters:
+                  workingDirectory: '$(Agent.BuildDirectory)'
                   environmentName: "Devv"
 
       #   - task: WikiUpdaterTask@1
@@ -78,6 +79,7 @@ stages:
               - script: echo my Test deployment
               - template: generate-wiki-docs.yml
                 parameters:
+                  workingDirectory: '$(Agent.BuildDirectory)'
                   environmentName: "Test"
   - stage: Stag
     jobs:
@@ -93,6 +95,7 @@ stages:
               - script: echo my Test deployment
               - template: generate-wiki-docs.yml
                 parameters:
+                  workingDirectory: '$(Agent.BuildDirectory)'
                   environmentName: "stag"
   - stage: Prod
     jobs:
@@ -108,4 +111,5 @@ stages:
               - script: echo my Prod deployment
               - template: generate-wiki-docs.yml
                 parameters:
+                  workingDirectory: '$(Agent.BuildDirectory)'
                   environmentName: "Prod"
