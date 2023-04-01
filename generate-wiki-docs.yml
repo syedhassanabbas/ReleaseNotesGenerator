@@ -68,7 +68,7 @@ steps:
       {{/forEach}}
       {{/forEach}}            
 - publish: '$(System.DefaultWorkingDirectory)inline-$(environmentName).md'
-  artifact: ReleaseNotes-$(environmentName)
+  artifact: ReleaseNotes-${{parameters.environmentName}}
 # - task: richardfennellBM.BM-VSTS-YAMLGenerator-DEV.YamlGeneratorTask.GenerateYAMLTask@2
 #   displayName: 'YAML Documentation Generator'
 #   inputs:
