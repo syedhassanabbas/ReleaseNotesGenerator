@@ -1,6 +1,6 @@
 parameters:
-# - name: workingDirectory    
-#   type: string
+- name: workingDirectory    
+  type: string
 # - name: wikiFilename           
 #   type: string
 # - name: repo                   
