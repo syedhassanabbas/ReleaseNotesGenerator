@@ -20,7 +20,7 @@ steps:
 - task: XplatGenerateReleaseNotes@4
   displayName: 'Generate Release Notes'
   inputs:
-    outputfile: '$(System.DefaultWorkingDirectory)inline-${{parameters.environmentName}}.md'
+    outputfile: 'inline-${{parameters.environmentName}}.md'
     outputVariableName: OutputText
     templateLocation: InLine
     inlinetemplate: |
@@ -67,11 +67,11 @@ steps:
             -  **File filename (GitHub):** {{this.filename}}  
       {{/forEach}}
       {{/forEach}}            
-- publish: '$(System.DefaultWorkingDirectory)inline-${{parameters.environmentName}}.md'
+- publish: 'inline-${{parameters.environmentName}}.md'
   artifact: ReleaseNotes-${{parameters.environmentName}}
 - task: PublishPipelineArtifact@1
   inputs:
-    targetPath: '$(System.DefaultWorkingDirectory)inline-${{parameters.environmentName}}.md'
+    targetPath: 'inline-${{parameters.environmentName}}.md'
     artifactType: 'pipeline'
     artifactName: ReleaseNotes-${{parameters.environmentName}}
 # - task: richardfennellBM.BM-VSTS-YAMLGenerator-DEV.YamlGeneratorTask.GenerateYAMLTask@2
