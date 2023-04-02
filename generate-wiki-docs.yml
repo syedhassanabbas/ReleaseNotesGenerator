@@ -70,10 +70,10 @@ steps:
 - publish: '$(Build.StagingDirectory)/inline-${{parameters.environmentName}}.md'
   artifact: ReleaseNotes-${{parameters.environmentName}}
 - task: PublishMarkdownReports@1
-inputs:
-  contentPath: $(Build.StagingDirectory)
-  indexFile: 'inline-${{parameters.environmentName}}.md'
-  headingId: doxybook2
+  inputs:
+    contentPath: $(Build.StagingDirectory)
+    indexFile: 'inline-${{parameters.environmentName}}.md'
+    headingId: doxybook2
 - task: PublishPipelineArtifact@1
   inputs:
     targetPath: '$(Build.StagingDirectory)/inline-${{parameters.environmentName}}.md'
