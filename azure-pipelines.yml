@@ -10,7 +10,7 @@ resources:
 
 trigger:
 - main
--handlebars-error-fix
+- handlebars-error-fix
 
 pool: Default
 
