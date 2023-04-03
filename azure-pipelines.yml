@@ -53,7 +53,7 @@ stages:
                   tag: 'v1.11.9' # string. Required when action = edit || action = delete || tagSource = userSpecifiedTag. Tag. 
                   title: 'v1.11.9' # string. Optional. Use when action = create || action = edit. Release title. 
                   releaseNotesSource: 'filePath' # 'filePath' | 'inline'. Optional. Use when action = create || action = edit. Release notes source. Default: filePath.
-                  releaseNotesFilePath: '$(Build.StagingDirectory)/inline-${{parameters.environmentName}}.md' # string. Optional. Use when releaseNotesSource = filePath. Release notes file path. 
+                  releaseNotesFilePath: '$(Build.StagingDirectory)/inline-Devv.md' # string. Optional. Use when releaseNotesSource = filePath. Release notes file path. 
                   #releaseNotesInline: # string. Optional. Use when releaseNotesSource = inline. Release notes. 
                   #assets: '$(Build.ArtifactStagingDirectory)/*' # string. Optional. Use when action = create || action = edit. Assets. Default: $(Build.ArtifactStagingDirectory)/*.
                   #assetUploadMode: 'delete' # 'delete' | 'replace'. Optional. Use when action = edit. Asset upload mode. Default: delete.
