@@ -17,7 +17,7 @@ pool: Default
 
 variables:
 - name: gittag
-  value: 'v1.11.30'
+  value: 'v1.11.31'
 
 
 stages:
@@ -31,11 +31,11 @@ stages:
             persistCredentials: true
 
           #$(GitVersion.NugetVersionV2)
-          - script: |
-               git tag ${{ variables.gittag }} 
-               git push origin ${{ variables.gittag }}
-            workingDirectory: $(Build.SourcesDirectory)
-            condition: eq(variables['Build.Reason'], 'PullRequest')    
+#           - script: |
+#                git tag ${{ variables.gittag }} 
+#                git push origin ${{ variables.gittag }}
+#             workingDirectory: $(Build.SourcesDirectory)
+#             condition: eq(variables['Build.Reason'], 'PullRequest')    
             
           - powershell: |
               Write-Host "Show all folder content"
