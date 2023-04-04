@@ -29,7 +29,7 @@ stages:
                git tag $(GitVersion.NugetVersionV2)
                git push origin $(GitVersion.NugetVersionV2)
             workingDirectory: $(Build.SourcesDirectory)
-            condition: and(eq(variables['Build.SourceBranch'], 'refs/heads/main'), eq(variables['Build.Reason'], 'PullRequest'))         
+            condition: eq(variables['Build.Reason'], 'PullRequest')    
             
           - powershell: |
               Write-Host "Show all folder content"
