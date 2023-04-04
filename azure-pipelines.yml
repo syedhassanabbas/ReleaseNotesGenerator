@@ -48,8 +48,8 @@ stages:
               target: '$(Build.SourceVersion)' # string. Required when action = create || action = edit. Target. Default: $(Build.SourceVersion).
               tagSource: 'gitTag' # 'gitTag' | 'userSpecifiedTag'. Required when action = create. Tag source. Default: gitTag.
               tagPattern: 'v1.*' # string. Optional. Use when tagSource = gitTag. Tag Pattern. 
-              tag: 'v1.11.16' # string. Required when action = edit || action = delete || tagSource = userSpecifiedTag. Tag. 
-              title: 'v1.11.16' # string. Optional. Use when action = create || action = edit. Release title. 
+              tag: 'v1.11.17' # string. Required when action = edit || action = delete || tagSource = userSpecifiedTag. Tag. 
+              title: 'v1.11.17' # string. Optional. Use when action = create || action = edit. Release title. 
               releaseNotesSource: 'filePath' # 'filePath' | 'inline'. Optional. Use when action = create || action = edit. Release notes source. Default: filePath.
               releaseNotesFilePath: '$(System.DefaultWorkingDirectory)/relasenotes.md' # string. Optional. Use when releaseNotesSource = filePath. Release notes file path. 
               #releaseNotesInline: # string. Optional. Use when releaseNotesSource = inline. Release notes. 
