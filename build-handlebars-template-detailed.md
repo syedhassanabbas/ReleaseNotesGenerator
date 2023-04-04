@@ -1,3 +1,5 @@
+## Build Notes
+
 ## Build {{buildDetails.buildNumber}}
 * **Branch**: {{buildDetails.sourceBranch}}
 * **Tags**: {{buildDetails.tags}}
