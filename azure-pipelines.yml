@@ -33,6 +33,7 @@ stages:
               outputfile: '$(System.DefaultWorkingDirectory)/relasenotes.md'
               outputVariableName: 'outputvar'
               templateLocation: 'File'
+              checkstages=false
           - publish: '$(System.DefaultWorkingDirectory)/relasenotes.md'
             artifact: ReleaseNotes-build
           - task: PublishMarkdownReports@1
