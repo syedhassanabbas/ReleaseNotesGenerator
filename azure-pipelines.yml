@@ -15,15 +15,16 @@ trigger:
 
 pool: Default
 
+variables:
+- name: gittag
+value: 'v1.11.27'
+
+
 stages:
 
   - stage: build   
     jobs:
-      - job: buildjob    
-        variables:
-      - name: gittag
-        value: 'v1.11.27'
-        
+      - job: buildjob                   
         steps:
 #          - checkout: ReleaseNotesGenerator
           - checkout: self
