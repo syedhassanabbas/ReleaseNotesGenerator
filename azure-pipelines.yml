@@ -33,11 +33,11 @@ stages:
             fetchDepth: "500"
 
           #$(GitVersion.NugetVersionV2)
-#           - script: |
-#                git tag ${{ variables.gittag }} 
-#                git push origin ${{ variables.gittag }}
-#             workingDirectory: $(Build.SourcesDirectory)
-#             condition: eq(variables['Build.Reason'], 'PullRequest')    
+          - script: |
+               git tag ${{ variables.gittag }} 
+               git push origin ${{ variables.gittag }}
+            workingDirectory: $(Build.SourcesDirectory)
+            condition: eq(variables['Build.Reason'], 'PullRequest')    
             
           - powershell: |
               Write-Host "Show all folder content"
