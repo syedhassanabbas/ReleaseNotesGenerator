@@ -15,7 +15,7 @@ pool: Default
 
 variables:
 - name: gittag
-  value: 'v1.11.38'
+  value: 'v1.11.39'
 
 stages:
 
@@ -43,7 +43,7 @@ stages:
           - task: XplatGenerateReleaseNotes@4
             displayName: 'Release notes with template'
             inputs:
-              templatefile: '$(System.DefaultWorkingDirectory)/build-handlebars-template-detailed.md'
+              templatefile: '$(System.DefaultWorkingDirectory)/build-handlebars-template.md'
               outputfile: '$(System.DefaultWorkingDirectory)/relasenotes.md'
               outputVariableName: 'outputvar'
               templateLocation: 'File'
