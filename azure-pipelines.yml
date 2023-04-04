@@ -29,6 +29,8 @@ stages:
 #          - checkout: ReleaseNotesGenerator
           - checkout: self
             persistCredentials: true
+            fetchTags: "true"
+            fetchDepth: "500"
 
           #$(GitVersion.NugetVersionV2)
 #           - script: |
