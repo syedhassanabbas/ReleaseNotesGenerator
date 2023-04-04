@@ -1,3 +1,5 @@
+## Build Notes
+
 # Notes for build 
 **Build Number**: {{buildDetails.id}}
 **Build Trigger PR Number**: {{lookup buildDetails.triggerInfo 'pr.number'}} 
