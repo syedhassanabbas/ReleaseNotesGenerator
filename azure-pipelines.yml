@@ -81,6 +81,7 @@ stages:
               #changeLogCompareToReleaseTag: # string. Required when changeLogCompareToRelease = lastNonDraftReleaseByTag. Release Tag. 
               changeLogType: 'commitBased' # 'commitBased' | 'issueBased'. Required when addChangeLog = true. Changelog type. Default: commitBased.
               #changeLogLabels: '[{ "label" : "bug", "displayName" : "Bugs", "state" : "closed" }]' # string. Optional. Use when changeLogType = issueBased. Categories. Default: [{ "label" : "bug", "displayName" : "Bugs", "state" : "closed" }].
+              condition: eq(variables['Build.Reason'], 'PullRequest') 
   - stage: Devv
     jobs:
       - deployment: DeployWeb
