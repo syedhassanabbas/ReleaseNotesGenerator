@@ -6,10 +6,11 @@ resources:
       type: github
       endpoint: syedhassanabbas
       name: syedhassanabbas/ReleaseNotesGenerator
-      ref: refs/heads/main     
+      ref: refs/heads/templatefile     
 
 trigger:
 - main
+- templatefile
 
 pool: Default
 
