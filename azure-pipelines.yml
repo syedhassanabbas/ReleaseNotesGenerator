@@ -15,7 +15,7 @@ pool: Default
 
 variables:
 - name: gittag
-  value: 'v1.11.41' # version van be auto generated using $(GitVersion.NuGetVersion) or $(GitVersion.SemVer).
+  value: 'v1.11.42' # version van be auto generated using $(GitVersion.NuGetVersion) or $(GitVersion.SemVer).
 
 stages:
 
