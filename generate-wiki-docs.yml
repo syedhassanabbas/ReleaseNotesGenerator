@@ -61,11 +61,11 @@ steps:
     targetPath: '${{parameters.workingDirectory}}/inline-${{parameters.environmentName}}.md'
     artifactType: 'pipeline'
     artifactName: ReleaseNotes-${{parameters.environmentName}}
-  - script: |
-       git tag ${{parameters.gittag}}-${{parameters.environmentName}}
-       git push origin ${{parameters.gittag}}-${{parameters.environmentName}}
-       workingDirectory: '${{parameters.workingDirectory}}
-       condition: ne(variables['Build.Reason'], 'PullRequest')  
+- script: |
+     git tag ${{parameters.gittag}}-${{parameters.environmentName}}
+     git push origin ${{parameters.gittag}}-${{parameters.environmentName}}
+     workingDirectory: '${{parameters.workingDirectory}}
+     condition: ne(variables['Build.Reason'], 'PullRequest')  
 - task: GitHubRelease@1
   inputs:
     gitHubConnection: 'github.com_syedhassanabbas'
