@@ -86,6 +86,7 @@ stages:
               - template: generate-wiki-docs.yml
                 parameters:
                   workingDirectory: '$(Agent.BuildDirectory)'
+                  SourcesDirectory: '$(Build.SourcesDirectory)'
                   environmentName: "Devv"      
                   gittag: ${{ variables.gittag }}
                   RepositoryName: '$(Build.Repository.Name)'
@@ -127,6 +128,7 @@ stages:
               - template: generate-wiki-docs.yml
                 parameters:
                   workingDirectory: '$(Agent.BuildDirectory)'
+                  SourcesDirectory: '$(Build.SourcesDirectory)'
                   environmentName: "Test"
                   gittag: ${{ variables.gittag }}
                   RepositoryName: '$(Build.Repository.Name)'
@@ -146,6 +148,7 @@ stages:
               - template: generate-wiki-docs.yml
                 parameters:
                   workingDirectory: '$(Agent.BuildDirectory)'
+                  SourcesDirectory: '$(Build.SourcesDirectory)'
                   environmentName: "stag"
                   gittag: ${{ variables.gittag }}
                   RepositoryName: '$(Build.Repository.Name)'
@@ -165,6 +168,7 @@ stages:
               - template: generate-wiki-docs.yml
                 parameters:
                   workingDirectory: '$(Agent.BuildDirectory)'
+                  SourcesDirectory: '$(Build.SourcesDirectory)'
                   environmentName: "Prod"
                   gittag: ${{ variables.gittag }}
                   RepositoryName: '$(Build.Repository.Name)'
