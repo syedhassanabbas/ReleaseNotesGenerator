@@ -36,7 +36,6 @@ steps:
     inlinetemplate: |
       **Build Number**: {{buildDetails.id}}
       **Build Trigger PR Number**: {{lookup buildDetails.triggerInfo 'pr.number'}}
-
       # Global list of WI ({{workItems.length}})
       {{#forEach workItems}}
       {{#if isFirst}}## Associated Work Items (only shown if  WI) {{/if}}
@@ -44,7 +43,6 @@ steps:
         - **WIT** {{lookup this.fields 'System.WorkItemType'}}
         - **Tags** {{lookup this.fields 'System.Tags'}}
       {{/forEach}}
-
       # Global list of CS ({{commits.length}})
       {{#forEach commits}}
       {{#if isFirst}}### Associated commits  (only shown if CS) {{/if}}
@@ -68,7 +66,8 @@ steps:
      git tag ${{parameters.gittag}}-${{parameters.environmentName}}
      git push origin ${{parameters.gittag}}-${{parameters.environmentName}}
   workingDirectory: '${{parameters.SourcesDirectory}}
-  condition: ne(variables['Build.Reason'], 'PullRequest')  
+  condition: ne(variables['Build.Reason'], 'PullRequest') 
+  
 - task: GitHubRelease@1
   inputs:
     gitHubConnection: 'github.com_syedhassanabbas'
