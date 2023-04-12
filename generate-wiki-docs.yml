@@ -1,6 +1,9 @@
 parameters:
 - name: workingDirectory    
   type: string
+- name: SourcesDirectory    
+  type: string
+    
 # - name: wikiFilename           
 #   type: string
 # - name: repo                   
@@ -64,7 +67,7 @@ steps:
 - script: |
      git tag ${{parameters.gittag}}-${{parameters.environmentName}}
      git push origin ${{parameters.gittag}}-${{parameters.environmentName}}
-     workingDirectory: '${{parameters.workingDirectory}}
+     workingDirectory: '${{parameters.SourcesDirectory}}
      condition: ne(variables['Build.Reason'], 'PullRequest')  
 - task: GitHubRelease@1
   inputs:
