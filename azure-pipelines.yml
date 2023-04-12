@@ -86,7 +86,10 @@ stages:
               - template: generate-wiki-docs.yml
                 parameters:
                   workingDirectory: '$(Agent.BuildDirectory)'
-                  environmentName: "Devv"            
+                  environmentName: "Devv"      
+                  gittag: ${{ variables.gittag }}
+                  RepositoryName: '$(Build.Repository.Name)'
+                  SourceVersion: '$(Build.SourceVersion)'      
       #   - task: WikiUpdaterTask@1
       #   displayName: 'Git based WIKI Updater'
       #   inputs:
