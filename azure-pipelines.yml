@@ -15,7 +15,7 @@ pool: Default
 
 variables:
 - name: gittag
-  value: 'v1.11.39'
+  value: 'v1.11.42' # version van be auto generated using $(GitVersion.NuGetVersion) or $(GitVersion.SemVer).
 
 stages:
 
@@ -34,12 +34,6 @@ stages:
             workingDirectory: $(Build.SourcesDirectory)
             condition: eq(variables['Build.Reason'], 'PullRequest')    
             
-          - powershell: |
-              Write-Host "Show all folder content"
-              Get-ChildItem -Path $(Build.SourcesDirectory)\*.* -Recurse -Force
-            errorActionPreference: continue
-            displayName: 'PowerShell Script List folder structure'
-            continueOnError: true
           - task: XplatGenerateReleaseNotes@4
             displayName: 'Release notes with template'
             inputs:
