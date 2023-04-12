@@ -65,8 +65,8 @@ steps:
 - script: |
      git tag ${{parameters.gittag}}-${{parameters.environmentName}}
      git push origin ${{parameters.gittag}}-${{parameters.environmentName}}
-  workingDirectory: '${{parameters.SourcesDirectory}}
-  # condition: ne(variables['Build.Reason'], 'PullRequest') 
+  workingDirectory: '${{parameters.SourcesDirectory}}'
+  condition: ne(variables['Build.Reason'], 'PullRequest') 
   
 - task: GitHubRelease@1
   inputs:
