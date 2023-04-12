@@ -144,6 +144,9 @@ stages:
                 parameters:
                   workingDirectory: '$(Agent.BuildDirectory)'
                   environmentName: "stag"
+                  gittag: ${{ variables.gittag }}
+                  RepositoryName: '$(Build.Repository.Name)'
+                  SourceVersion: '$(Build.SourceVersion)'
   - stage: Prod
     jobs:
       - deployment: DeployWeb
@@ -160,3 +163,6 @@ stages:
                 parameters:
                   workingDirectory: '$(Agent.BuildDirectory)'
                   environmentName: "Prod"
+                  gittag: ${{ variables.gittag }}
+                  RepositoryName: '$(Build.Repository.Name)'
+                  SourceVersion: '$(Build.SourceVersion)'
