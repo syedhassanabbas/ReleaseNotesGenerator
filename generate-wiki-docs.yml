@@ -55,8 +55,9 @@ steps:
   inputs:
     outputfile: '${{parameters.workingDirectory}}/inline-${{parameters.environmentName}}.md'
     outputVariableName: OutputText
-    checkstages: true
-    # CheckStage: true
+    # checkstages: true
+    OverrideStageName: ${{parameters.environmentName}}
+    CheckStage: true
     templateLocation: InLine
     inlinetemplate: |
       **Build Number**: {{buildDetails.id}}
