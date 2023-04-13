@@ -29,7 +29,7 @@ steps:
 - task: WorkItemUpdater@3
   displayName: 'WorkItem Updater'
   inputs:
-    workitemsSource: 'Build'
+    workitemsSource: 'WorkItems linked to the Build/Release'
     workItemType: 'User Story,Bug'
     workItemState: 'Active'
     workItemKanbanState: 'Ready for Dev'
