@@ -39,7 +39,7 @@ steps:
     linkBuild: true
 #     workItemDone
 - bash: | # Access Token should need Build Read, Work Item Read & Write, Member Entitlement Management Read
-    curl -u HassanAbbas@ShahSoftLTD.onmicrosoft.com:6uqlc4eltcujrp7x6ilaviphnlt3zacshjspw73xl7jp3khsxcda https://dev.azure.com/HassanAbbasShahSoftLTD/Deployment%20Approvals%20Demo/_apis/build/builds/$(build.buildId)/workitems?api-version=6.0 | jq '.value[] | .id' |
+    curl -u HassanAbbas@ShahSoftLTD.onmicrosoft.com:6uqlc4eltcujrp7x6ilaviphnlt3zacshjspw73xl7jp3khsxcda https://dev.azure.com/HassanAbbasShahSoftLTD/Deployment%20Approvals%20Demo/_apis/build/builds/$(build.buildId)/workitems?api-version=6.0
     while IFS=$"\n" read -r c; do
       wid=$(echo $c | tr -dc '0-9')
       echo
@@ -56,7 +56,7 @@ steps:
     outputfile: '${{parameters.workingDirectory}}/inline-${{parameters.environmentName}}.md'
     outputVariableName: OutputText
     checkstages: true
-    CheckStage: true
+    # CheckStage: true
     templateLocation: InLine
     inlinetemplate: |
       **Build Number**: {{buildDetails.id}}
