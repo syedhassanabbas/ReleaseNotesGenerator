@@ -25,7 +25,19 @@ parameters:
 - name: SourceVersion
   type: string
 
-steps:  
+steps: 
+- bash: | # Access Token should need Build Read, Work Item Read & Write, Member Entitlement Management Read
+    curl -u HassanAbbas@ShahSoftLTD.onmicrosoft.com:6uqlc4eltcujrp7x6ilaviphnlt3zacshjspw73xl7jp3khsxcda https://dev.azure.com/HassanAbbasShahSoftLTD/Deployment%20Approvals%20Demo/_apis/build/builds/$(build.buildId)/workitems?api-version=6.0 | jq '.value[] | .id' |
+    while IFS=$"\n" read -r c; do
+      wid=$(echo $c | tr -dc '0-9')
+      echo
+      echo Posting status to work item: $wid
+      echo
+      curl -u HassanAbbas@ShahSoftLTD.onmicrosoft.com:6uqlc4eltcujrp7x6ilaviphnlt3zacshjspw73xl7jp3khsxcda https://dev.azure.com/HassanAbbasShahSoftLTD/Deployment%20Approvals%20Demo/_apis/wit/workItems/$wid/comments?api-version=6.0-preview.3 -X POST --data '{"text": "Build $(Build.BuildNumber) completed with status: $(Agent.JobStatus)"}' -H 'Content-Type: application/json'
+      echo
+    done
+  displayName: 'Post status to work items'
+  condition: always()
 - task: XplatGenerateReleaseNotes@4
   displayName: 'Generate Release Notes'
   inputs:
