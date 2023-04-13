@@ -31,8 +31,8 @@ steps:
   inputs:
     workitemsSource: 'Build'
     workItemType: 'User Story,Bug'
-    # workItemState: 'Closed'
-    workItemKanbanState: 'Active - Dev'
+    workItemState: 'Active'
+    workItemKanbanState: 'Ready for Dev'
     comment: 'Deployed to Devv'
     addTags: 'Deployed To Dev'
     allWorkItemsSinceLastRelease: true
