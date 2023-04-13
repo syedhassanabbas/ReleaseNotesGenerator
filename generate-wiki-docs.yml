@@ -26,10 +26,10 @@ parameters:
   type: string
 
 steps: 
-- task: WorkItemUpdater@2
+- task: WorkItemUpdater@3
   displayName: 'WorkItem Updater'
   inputs:
-    workitemsSource: 'WorkItems linked to the Build/Release'
+    workitemsSource: 'Build'
     workItemType: 'User Story,Bug'
     # workItemState: 'Closed'
     workItemKanbanState: 'Active - Dev'
