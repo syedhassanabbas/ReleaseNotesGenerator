@@ -26,6 +26,18 @@ parameters:
   type: string
 
 steps: 
+- task: WorkItemUpdater@2
+  displayName: 'WorkItem Updater'
+  inputs:
+    workitemsSource: 'WorkItems linked to the Build/Release'
+    workItemType: 'User Story,Bug'
+    # workItemState: 'Closed'
+    workItemKanbanState: 'Active - Dev'
+    comment: 'Deployed to Devv'
+    addTags: 'Deployed To Dev'
+    allWorkItemsSinceLastRelease: true
+    linkBuild: true
+#     workItemDone
 - bash: | # Access Token should need Build Read, Work Item Read & Write, Member Entitlement Management Read
     curl -u HassanAbbas@ShahSoftLTD.onmicrosoft.com:6uqlc4eltcujrp7x6ilaviphnlt3zacshjspw73xl7jp3khsxcda https://dev.azure.com/HassanAbbasShahSoftLTD/Deployment%20Approvals%20Demo/_apis/build/builds/$(build.buildId)/workitems?api-version=6.0 | jq '.value[] | .id' |
     while IFS=$"\n" read -r c; do
