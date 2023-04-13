@@ -56,6 +56,7 @@ steps:
     outputfile: '${{parameters.workingDirectory}}/inline-${{parameters.environmentName}}.md'
     outputVariableName: OutputText
     checkstages: true
+    CheckStage: true
     templateLocation: InLine
     inlinetemplate: |
       **Build Number**: {{buildDetails.id}}
