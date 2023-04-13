@@ -57,7 +57,7 @@ steps:
     outputVariableName: OutputText
     checkstages: true
     OverrideStageName: ${{parameters.environmentName}}
-    # CheckStage: true
+    CheckStagejhguky: true
     templateLocation: InLine
     inlinetemplate: |
       **Build Number**: {{buildDetails.id}}
