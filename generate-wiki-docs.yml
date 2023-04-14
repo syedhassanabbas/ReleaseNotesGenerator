@@ -24,6 +24,8 @@ parameters:
   type: string
 - name: SourceVersion
   type: string
+- name: overrideStageName
+  type: string
 
 steps: 
 - task: WorkItemUpdater@3
@@ -57,7 +59,7 @@ steps:
     outputVariableName: OutputText
     # checkstages: true
     checkStage: true
-    overrideStageName: ${{parameters.environmentName}}    
+    overrideStageName: ${{parameters.overrideStageName}}    
     templateLocation: InLine
     inlinetemplate: |
       **Build Number**: {{buildDetails.id}}
