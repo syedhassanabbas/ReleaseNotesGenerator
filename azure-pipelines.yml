@@ -87,7 +87,8 @@ stages:
                 parameters:
                   workingDirectory: '$(Agent.BuildDirectory)'
                   SourcesDirectory: '$(Build.SourcesDirectory)'
-                  environmentName: "Devv"      
+                  environmentName: 'Devv'
+                  overrideStageName: 'build'     
                   gittag: ${{ variables.gittag }}
                   RepositoryName: '$(Build.Repository.Name)'
                   SourceVersion: '$(Build.SourceVersion)'      
@@ -129,7 +130,8 @@ stages:
                 parameters:
                   workingDirectory: '$(Agent.BuildDirectory)'
                   SourcesDirectory: '$(Build.SourcesDirectory)'
-                  environmentName: "Test"
+                  environmentName: 'Test'
+                  overrideStageName: 'Devv'
                   gittag: ${{ variables.gittag }}
                   RepositoryName: '$(Build.Repository.Name)'
                   SourceVersion: '$(Build.SourceVersion)'
@@ -138,7 +140,7 @@ stages:
       - deployment: DeployWeb
         displayName: deploy Web App
         pool: Default       
-        environment: 'Stag'
+        environment: 'Stag'        
         strategy:
           # default deployment strategy 
           runOnce:
@@ -150,6 +152,7 @@ stages:
                   workingDirectory: '$(Agent.BuildDirectory)'
                   SourcesDirectory: '$(Build.SourcesDirectory)'
                   environmentName: "stag"
+                  overrideStageName: 'Test'
                   gittag: ${{ variables.gittag }}
                   RepositoryName: '$(Build.Repository.Name)'
                   SourceVersion: '$(Build.SourceVersion)'
@@ -169,7 +172,8 @@ stages:
                 parameters:
                   workingDirectory: '$(Agent.BuildDirectory)'
                   SourcesDirectory: '$(Build.SourcesDirectory)'
-                  environmentName: "Prod"
+                  environmentName: 'Prod'
+                  overrideStageName: 'Stag'
                   gittag: ${{ variables.gittag }}
                   RepositoryName: '$(Build.Repository.Name)'
                   SourceVersion: '$(Build.SourceVersion)'
