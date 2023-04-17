@@ -82,16 +82,22 @@ stages:
           runOnce:
             deploy:
               steps:
-              - script: echo my Test deployment
-              - template: generate-wiki-docs.yml
-                parameters:
-                  workingDirectory: '$(Agent.BuildDirectory)'
-                  SourcesDirectory: '$(Build.SourcesDirectory)'
-                  environmentName: 'Devv'
-                  overrideStageName: 'build'     
-                  gittag: ${{ variables.gittag }}
-                  RepositoryName: '$(Build.Repository.Name)'
-                  SourceVersion: '$(Build.SourceVersion)'      
+              - script: echo my Devv deployment
+
+              - script: |
+                  git tag 'Devv' 
+                  git push 'Devv'
+                workingDirectory: $(Build.SourcesDirectory)
+                condition: ne(variables['Build.Reason'], 'PullRequest') 
+              # - template: generate-wiki-docs.yml
+              #   parameters:
+              #     workingDirectory: '$(Agent.BuildDirectory)'
+              #     SourcesDirectory: '$(Build.SourcesDirectory)'
+              #     environmentName: 'Devv'
+              #     overrideStageName: 'build'     
+              #     gittag: ${{ variables.gittag }}
+              #     RepositoryName: '$(Build.Repository.Name)'
+              #     SourceVersion: '$(Build.SourceVersion)'      
       #   - task: WikiUpdaterTask@1
       #   displayName: 'Git based WIKI Updater'
       #   inputs:
