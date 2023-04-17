@@ -15,7 +15,7 @@ pool: Default
 
 variables:
 - name: gittag
-  value: 'v1.11.44' # version van be auto generated using $(GitVersion.NuGetVersion) or $(GitVersion.SemVer).
+  value: 'v1.11.46' # version van be auto generated using $(GitVersion.NuGetVersion) or $(GitVersion.SemVer).
 
 stages:
 
@@ -28,11 +28,11 @@ stages:
             fetchTags: "true"
             fetchDepth: "500"
 
-          # - script: |
-          #      git tag ${{ variables.gittag }} 
-          #      git push origin ${{ variables.gittag }}
-          #   workingDirectory: $(Build.SourcesDirectory)
-          #   condition: eq(variables['Build.Reason'], 'PullRequest')    
+          - script: |
+               git tag ${{ variables.gittag }} 
+               git push origin ${{ variables.gittag }}
+            workingDirectory: $(Build.SourcesDirectory)
+            condition: eq(variables['Build.Reason'], 'PullRequest')    
             
           # - task: XplatGenerateReleaseNotes@4
           #   displayName: 'Release notes with template'
