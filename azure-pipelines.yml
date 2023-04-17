@@ -93,17 +93,17 @@ stages:
                 displayName: 'Git Log'
 
               - publish: '$(System.DefaultWorkingDirectory)/inline-Devv.md'
-                artifact: ReleaseNotes-${{parameters.environmentName}}
+                artifact: ReleaseNotes-Devv
               - task: PublishMarkdownReports@1
                 inputs:
                   contentPath: '$(System.DefaultWorkingDirectory)'
                   indexFile: 'inline-Devv.md'
-                  headingId: ${{parameters.environmentName}}releasenotes
+                  headingId: Devv-releasenotes
               - task: PublishPipelineArtifact@1
                 inputs:
                   targetPath: '$(System.DefaultWorkingDirectory)/inline-Devv.md'
                   artifactType: 'pipeline'
-                  artifactName: ReleaseNotes-${{parameters.environmentName}}
+                  artifactName: ReleaseNotes-Devv
               # - script: |
               #     git tag 'Devv' 
               #     git push 'Devv'
