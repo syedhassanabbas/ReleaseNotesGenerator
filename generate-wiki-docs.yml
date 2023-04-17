@@ -91,6 +91,10 @@ steps:
 #     targetPath: '${{parameters.workingDirectory}}/inline-${{parameters.environmentName}}.md'
 #     artifactType: 'pipeline'
 #     artifactName: ReleaseNotes-${{parameters.environmentName}}
+- checkout: self
+  persistCredentials: true
+  fetchTags: "true"
+  fetchDepth: "500"
 - script: |
      git tag ${{parameters.environmentName}}
      git push origin ${{parameters.environmentName}}
