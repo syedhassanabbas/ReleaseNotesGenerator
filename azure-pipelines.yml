@@ -32,7 +32,7 @@ stages:
                git tag ${{ variables.gittag }} 
                git push origin ${{ variables.gittag }}
             workingDirectory: $(Build.SourcesDirectory)
-            condition: eq(variables['Build.Reason'], 'PullRequest')    
+            condition: ne(variables['Build.Reason'], 'PullRequest')    
             
           # - task: XplatGenerateReleaseNotes@4
           #   displayName: 'Release notes with template'
