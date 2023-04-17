@@ -34,14 +34,16 @@ steps:
   fetchDepth: "500"
 - script: |
      git tag ${{parameters.environmentName}}
-     git push --delete origin ${{parameters.environmentName}}
+     git push --delete origin ${{parameters.environmentName}}     
   workingDirectory: '${{parameters.SourcesDirectory}}'
   condition: ne(variables['Build.Reason'], 'PullRequest')
+  displayName: 'Delete Git Tag -> ${{parameters.environmentName}}'
 - script: |
      git tag ${{parameters.environmentName}}
-     git push origin ${{parameters.environmentName}}
-  workingDirectory: '${{parameters.SourcesDirectory}}'
-  condition: ne(variables['Build.Reason'], 'PullRequest') 
+     git push origin ${{parameters.environmentName}}  
+  workingDirectory: '${{parameters.SourcesDirectory}}'  
+  condition: ne(variables['Build.Reason'], 'PullRequest')
+  displayName: 'Create Git Tag -> ${{parameters.environmentName}}'
 # - task: WorkItemUpdater@3
 #   displayName: 'WorkItem Updater'
 #   inputs:
