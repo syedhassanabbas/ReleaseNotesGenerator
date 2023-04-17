@@ -28,17 +28,18 @@ parameters:
   type: string
 
 steps: 
-- task: WorkItemUpdater@3
-  displayName: 'WorkItem Updater'
-  inputs:
-    workitemsSource: 'WorkItems linked to the Build/Release'
-    workItemType: 'User Story,Bug'
-    workItemState: 'Active'
-    workItemKanbanState: 'Ready for Dev'
-    comment: 'Deployed to Devv'
-    addTags: 'Deployed To Dev'
-    allWorkItemsSinceLastRelease: true
-    linkBuild: true
+# - task: WorkItemUpdater@3
+#   displayName: 'WorkItem Updater'
+#   inputs:
+#     workitemsSource: 'WorkItems linked to the Build/Release'
+#     workItemType: 'User Story,Bug'
+#     workItemState: 'Active'
+#     workItemKanbanState: 'Ready for Dev'
+#     comment: 'Deployed to Devv'
+#     addTags: 'Deployed To Dev'
+#     allWorkItemsSinceLastRelease: true
+#     linkBuild: true
+
 #     workItemDone
 # - bash: | # Access Token should need Build Read, Work Item Read & Write, Member Entitlement Management Read
 #     curl -u HassanAbbas@ShahSoftLTD.onmicrosoft.com:6uqlc4eltcujrp7x6ilaviphnlt3zacshjspw73xl7jp3khsxcda https://dev.azure.com/HassanAbbasShahSoftLTD/Deployment%20Approvals%20Demo/_apis/build/builds/$(build.buildId)/workitems?api-version=6.0
@@ -52,49 +53,49 @@ steps:
 #     done
 #   displayName: 'Post status to work items'
 #   condition: always()
-- task: XplatGenerateReleaseNotes@4
-  displayName: 'Generate Release Notes'
-  inputs:
-    outputfile: '${{parameters.workingDirectory}}/inline-${{parameters.environmentName}}.md'
-    outputVariableName: OutputText
-    # checkstages: true
-    checkStage: true
-    overrideStageName: ${{parameters.overrideStageName}}    
-    templateLocation: InLine
-    inlinetemplate: |
-      **Build Number**: {{buildDetails.id}}
-      **Build Trigger PR Number**: {{lookup buildDetails.triggerInfo 'pr.number'}}
-      # Global list of WI ({{workItems.length}})
-      {{#forEach workItems}}
-      {{#if isFirst}}## Associated Work Items (only shown if  WI) {{/if}}
-      *  **{{this.id}}**  {{lookup this.fields 'System.Title'}}
-        - **WIT** {{lookup this.fields 'System.WorkItemType'}}
-        - **Tags** {{lookup this.fields 'System.Tags'}}
-      {{/forEach}}
-      # Global list of CS ({{commits.length}})
-      {{#forEach commits}}
-      {{#if isFirst}}### Associated commits  (only shown if CS) {{/if}}
-      * ** ID{{this.id}}**
-        -  **Message:** {{this.message}}
-        -  **Commited by:** {{this.author.displayName}}
-      {{/forEach}}       
-- publish: '${{parameters.workingDirectory}}/inline-${{parameters.environmentName}}.md'
-  artifact: ReleaseNotes-${{parameters.environmentName}}
-- task: PublishMarkdownReports@1
-  inputs:
-    contentPath: '${{parameters.workingDirectory}}'
-    indexFile: 'inline-${{parameters.environmentName}}.md'
-    headingId: ${{parameters.environmentName}}releasenotes
-- task: PublishPipelineArtifact@1
-  inputs:
-    targetPath: '${{parameters.workingDirectory}}/inline-${{parameters.environmentName}}.md'
-    artifactType: 'pipeline'
-    artifactName: ReleaseNotes-${{parameters.environmentName}}
-# - script: |
-#      git tag ${{parameters.gittag}}-${{parameters.environmentName}}
-#      git push origin ${{parameters.gittag}}-${{parameters.environmentName}}
-#   workingDirectory: '${{parameters.SourcesDirectory}}'
-#   condition: ne(variables['Build.Reason'], 'PullRequest') 
+# - task: XplatGenerateReleaseNotes@4
+#   displayName: 'Generate Release Notes'
+#   inputs:
+#     outputfile: '${{parameters.workingDirectory}}/inline-${{parameters.environmentName}}.md'
+#     outputVariableName: OutputText
+#     # checkstages: true
+#     checkStage: true
+#     overrideStageName: ${{parameters.overrideStageName}}    
+#     templateLocation: InLine
+#     inlinetemplate: |
+#       **Build Number**: {{buildDetails.id}}
+#       **Build Trigger PR Number**: {{lookup buildDetails.triggerInfo 'pr.number'}}
+#       # Global list of WI ({{workItems.length}})
+#       {{#forEach workItems}}
+#       {{#if isFirst}}## Associated Work Items (only shown if  WI) {{/if}}
+#       *  **{{this.id}}**  {{lookup this.fields 'System.Title'}}
+#         - **WIT** {{lookup this.fields 'System.WorkItemType'}}
+#         - **Tags** {{lookup this.fields 'System.Tags'}}
+#       {{/forEach}}
+#       # Global list of CS ({{commits.length}})
+#       {{#forEach commits}}
+#       {{#if isFirst}}### Associated commits  (only shown if CS) {{/if}}
+#       * ** ID{{this.id}}**
+#         -  **Message:** {{this.message}}
+#         -  **Commited by:** {{this.author.displayName}}
+#       {{/forEach}}       
+# - publish: '${{parameters.workingDirectory}}/inline-${{parameters.environmentName}}.md'
+#   artifact: ReleaseNotes-${{parameters.environmentName}}
+# - task: PublishMarkdownReports@1
+#   inputs:
+#     contentPath: '${{parameters.workingDirectory}}'
+#     indexFile: 'inline-${{parameters.environmentName}}.md'
+#     headingId: ${{parameters.environmentName}}releasenotes
+# - task: PublishPipelineArtifact@1
+#   inputs:
+#     targetPath: '${{parameters.workingDirectory}}/inline-${{parameters.environmentName}}.md'
+#     artifactType: 'pipeline'
+#     artifactName: ReleaseNotes-${{parameters.environmentName}}
+- script: |
+     git tag ${{parameters.environmentName}}
+     git push origin ${{parameters.environmentName}}
+  workingDirectory: '${{parameters.SourcesDirectory}}'
+  condition: ne(variables['Build.Reason'], 'PullRequest') 
   
 # - task: GitHubRelease@1
 #   inputs:
