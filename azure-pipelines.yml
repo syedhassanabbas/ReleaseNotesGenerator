@@ -84,11 +84,11 @@ stages:
               steps:
               - script: echo my Devv deployment
 
-              - script: |
-                  git tag 'Devv' 
-                  git push 'Devv'
-                workingDirectory: $(Build.SourcesDirectory)
-                condition: ne(variables['Build.Reason'], 'PullRequest') 
+              # - script: |
+              #     git tag 'Devv' 
+              #     git push 'Devv'
+              #   workingDirectory: $(Build.SourcesDirectory)
+              #   condition: ne(variables['Build.Reason'], 'PullRequest') 
               # - template: generate-wiki-docs.yml
               #   parameters:
               #     workingDirectory: '$(Agent.BuildDirectory)'
