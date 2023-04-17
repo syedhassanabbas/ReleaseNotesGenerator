@@ -83,7 +83,27 @@ stages:
             deploy:
               steps:
               - script: echo my Devv deployment
+              - script: |
+                  export VERSION=${{ variables.gittag }}
+                  export PREVIOUS_VERSION='Devv'
+                  export CHANGES=$(git log --pretty="- %s" $VERSION...$PREVIOUS_VERSION)
+                  printf "# 🎁 Release notes (\`$VERSION\`)\n\n## Changes\n$CHANGES\n\n## Metadata\n\`\`\`\nThis version -------- $VERSION\nPrevious version ---- $PREVIOUS_VERSION\nTotal commits ------- $(echo "$CHANGES" | wc -l)\n\`\`\`\n" > inline-Devv.md
+                workingDirectory: '$(System.DefaultWorkingDirectory)'  
+                condition: ne(variables['Build.Reason'], 'PullRequest')
+                displayName: 'Git Log'
 
+              - publish: '$(System.DefaultWorkingDirectory)/inline-Devv.md'
+                artifact: ReleaseNotes-${{parameters.environmentName}}
+              - task: PublishMarkdownReports@1
+                inputs:
+                  contentPath: '$(System.DefaultWorkingDirectory)'
+                  indexFile: 'inline-Devv.md'
+                  headingId: ${{parameters.environmentName}}releasenotes
+              - task: PublishPipelineArtifact@1
+                inputs:
+                  targetPath: '$(System.DefaultWorkingDirectory)/inline-Devv.md'
+                  artifactType: 'pipeline'
+                  artifactName: ReleaseNotes-${{parameters.environmentName}}
               # - script: |
               #     git tag 'Devv' 
               #     git push 'Devv'
