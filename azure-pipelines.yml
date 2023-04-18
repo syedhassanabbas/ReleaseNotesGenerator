@@ -84,7 +84,7 @@ stages:
               steps:
               - script: echo my Devv deployment
               - script: |
-                   git log --pretty="- %s" ${{ variables.gittag }}...'Devv' inline-Devv.md                   
+                   git --no-pager log ${{ variables.gittag }}..'Devv' inline-Devv.md                   
                 workingDirectory: '$(System.DefaultWorkingDirectory)'  
                 condition: ne(variables['Build.Reason'], 'PullRequest')
                 displayName: 'Git Log'
