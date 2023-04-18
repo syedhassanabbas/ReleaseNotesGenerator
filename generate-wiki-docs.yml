@@ -28,10 +28,6 @@ parameters:
   type: string
 
 steps:
-- checkout: self
-  persistCredentials: true
-  fetchTags: "true"
-  fetchDepth: "500"
 - script: |
      git tag ${{parameters.environmentName}}
      git push --delete origin ${{parameters.environmentName}}     
