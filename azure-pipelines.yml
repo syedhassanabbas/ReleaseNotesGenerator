@@ -166,12 +166,12 @@ stages:
                 fetchTags: "true"
                 fetchDepth: "500"
               - script: |
-                   git --no-pager log ${{ variables.gittag }}..'Test' > inline-Stag.md                   
+                   git --no-pager log ${{ variables.gittag }}..'Test' > inline-Test.md                   
                 workingDirectory: '$(System.DefaultWorkingDirectory)'  
                 condition: ne(variables['Build.Reason'], 'PullRequest')
                 displayName: 'Git Log'
 
-              - publish: '$(System.DefaultWorkingDirectory)/inline-Stag.md'
+              - publish: '$(System.DefaultWorkingDirectory)/inline-Test.md'
                 artifact: ReleaseNotes-Test
               - task: PublishMarkdownReports@1
                 inputs:
@@ -252,12 +252,12 @@ stages:
                 fetchTags: "true"
                 fetchDepth: "500"
               - script: |
-                   git --no-pager log ${{ variables.gittag }}..'Prod' > inline-Devv.md                   
+                   git --no-pager log ${{ variables.gittag }}..'Prod' > inline-Prod.md                   
                 workingDirectory: '$(System.DefaultWorkingDirectory)'  
                 condition: ne(variables['Build.Reason'], 'PullRequest')
                 displayName: 'Git Log'
 
-              - publish: '$(System.DefaultWorkingDirectory)/inline-Devv.md'
+              - publish: '$(System.DefaultWorkingDirectory)/inline-Prod.md'
                 artifact: ReleaseNotes-Prod
               - task: PublishMarkdownReports@1
                 inputs:
