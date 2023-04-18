@@ -166,7 +166,7 @@ stages:
                 fetchTags: "true"
                 fetchDepth: "500"
               - script: |
-                   git --no-pager log ${{ variables.gittag }}..'Test' > inline-Test.md                   
+                   git --no-pager log ${{ variables.gittag }}..'Test' -- inline-Test.md                   
                 workingDirectory: '$(System.DefaultWorkingDirectory)'  
                 condition: ne(variables['Build.Reason'], 'PullRequest')
                 displayName: 'Git Log'
