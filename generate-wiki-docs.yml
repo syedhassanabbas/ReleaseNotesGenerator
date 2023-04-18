@@ -29,7 +29,6 @@ parameters:
 
 steps:
 - script: |
-     git tag ${{parameters.environmentName}}
      git push --delete origin ${{parameters.environmentName}}     
   workingDirectory: '${{parameters.SourcesDirectory}}'
   condition: ne(variables['Build.Reason'], 'PullRequest')
