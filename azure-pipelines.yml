@@ -209,7 +209,7 @@ stages:
                 fetchTags: "true"
                 fetchDepth: "500"
               - script: |
-                   git --no-pager log ${{ variables.gittag }}..'Stag' > inline-Stag.md                   
+                   git --no-pager log ${{ variables.gittag }}..Stag > inline-Stag.md                   
                 workingDirectory: '$(System.DefaultWorkingDirectory)'  
                 condition: ne(variables['Build.Reason'], 'PullRequest')
                 displayName: 'Git Log'
@@ -252,7 +252,7 @@ stages:
                 fetchTags: "true"
                 fetchDepth: "500"
               - script: |
-                   git --no-pager log ${{ variables.gittag }}..'Prod' > inline-Prod.md                   
+                   git --no-pager log ${{ variables.gittag }}..Prod > inline-Prod.md                   
                 workingDirectory: '$(System.DefaultWorkingDirectory)'  
                 condition: ne(variables['Build.Reason'], 'PullRequest')
                 displayName: 'Git Log'
