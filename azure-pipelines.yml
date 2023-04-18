@@ -83,6 +83,10 @@ stages:
             deploy:
               steps:
               - script: echo my Devv deployment
+              - checkout: self
+                persistCredentials: true
+                fetchTags: "true"
+                fetchDepth: "500"
               - script: |
                    git --no-pager log ${{ variables.gittag }}..'Devv' inline-Devv.md                   
                 workingDirectory: '$(System.DefaultWorkingDirectory)'  
