@@ -166,12 +166,12 @@ stages:
                 fetchTags: "true"
                 fetchDepth: "500"
               - script: |
-                   git --no-pager log ${{ variables.gittag }}..'Test' > inline-Devv.md                   
+                   git --no-pager log ${{ variables.gittag }}..'Test' > inline-Stag.md                   
                 workingDirectory: '$(System.DefaultWorkingDirectory)'  
                 condition: ne(variables['Build.Reason'], 'PullRequest')
                 displayName: 'Git Log'
 
-              - publish: '$(System.DefaultWorkingDirectory)/inline-Devv.md'
+              - publish: '$(System.DefaultWorkingDirectory)/inline-Stag.md'
                 artifact: ReleaseNotes-Test
               - task: PublishMarkdownReports@1
                 inputs:
@@ -188,7 +188,7 @@ stages:
                   workingDirectory: '$(Agent.BuildDirectory)'
                   SourcesDirectory: '$(Build.SourcesDirectory)'
                   environmentName: 'Test'
-                  overrideStageName: 'Devv'
+                  overrideStageName: 'Test'
                   gittag: ${{ variables.gittag }}
                   RepositoryName: '$(Build.Repository.Name)'
                   SourceVersion: '$(Build.SourceVersion)'
@@ -203,35 +203,35 @@ stages:
           runOnce:
             deploy:
               steps:
-              - script: echo my Test deployment
+              - script: echo my Stag deployment
               - checkout: self
                 persistCredentials: true
                 fetchTags: "true"
                 fetchDepth: "500"
               - script: |
-                   git --no-pager log ${{ variables.gittag }}..'Test' > inline-Devv.md                   
+                   git --no-pager log ${{ variables.gittag }}..'Stag' > inline-Stag.md                   
                 workingDirectory: '$(System.DefaultWorkingDirectory)'  
                 condition: ne(variables['Build.Reason'], 'PullRequest')
                 displayName: 'Git Log'
 
-              - publish: '$(System.DefaultWorkingDirectory)/inline-Devv.md'
-                artifact: ReleaseNotes-Test
+              - publish: '$(System.DefaultWorkingDirectory)/inline-Stag.md'
+                artifact: ReleaseNotes-Stag
               - task: PublishMarkdownReports@1
                 inputs:
                   contentPath: '$(System.DefaultWorkingDirectory)'
-                  indexFile: 'inline-Test.md'
-                  headingId: Test-releasenotes
+                  indexFile: 'inline-Stag.md'
+                  headingId: Stag-releasenotes
               - task: PublishPipelineArtifact@1
                 inputs:
-                  targetPath: '$(System.DefaultWorkingDirectory)/inline-Test.md'
+                  targetPath: '$(System.DefaultWorkingDirectory)/inline-Stag.md'
                   artifactType: 'pipeline'
-                  artifactName: ReleaseNotes-Test
+                  artifactName: ReleaseNotes-Stag
               - template: generate-wiki-docs.yml
                 parameters:
                   workingDirectory: '$(Agent.BuildDirectory)'
                   SourcesDirectory: '$(Build.SourcesDirectory)'
                   environmentName: "stag"
-                  overrideStageName: 'Test'
+                  overrideStageName: 'Stag'
                   gittag: ${{ variables.gittag }}
                   RepositoryName: '$(Build.Repository.Name)'
                   SourceVersion: '$(Build.SourceVersion)'
@@ -252,29 +252,29 @@ stages:
                 fetchTags: "true"
                 fetchDepth: "500"
               - script: |
-                   git --no-pager log ${{ variables.gittag }}..'Test' > inline-Devv.md                   
+                   git --no-pager log ${{ variables.gittag }}..'Prod' > inline-Devv.md                   
                 workingDirectory: '$(System.DefaultWorkingDirectory)'  
                 condition: ne(variables['Build.Reason'], 'PullRequest')
                 displayName: 'Git Log'
 
               - publish: '$(System.DefaultWorkingDirectory)/inline-Devv.md'
-                artifact: ReleaseNotes-Test
+                artifact: ReleaseNotes-Prod
               - task: PublishMarkdownReports@1
                 inputs:
                   contentPath: '$(System.DefaultWorkingDirectory)'
-                  indexFile: 'inline-Test.md'
-                  headingId: Test-releasenotes
+                  indexFile: 'inline-Prod.md'
+                  headingId: Prod-releasenotes
               - task: PublishPipelineArtifact@1
                 inputs:
-                  targetPath: '$(System.DefaultWorkingDirectory)/inline-Test.md'
+                  targetPath: '$(System.DefaultWorkingDirectory)/inline-Prod.md'
                   artifactType: 'pipeline'
-                  artifactName: ReleaseNotes-Test
+                  artifactName: ReleaseNotes-Prod
               - template: generate-wiki-docs.yml
                 parameters:
                   workingDirectory: '$(Agent.BuildDirectory)'
                   SourcesDirectory: '$(Build.SourcesDirectory)'
                   environmentName: 'Prod'
-                  overrideStageName: 'Stag'
+                  overrideStageName: 'Prod'
                   gittag: ${{ variables.gittag }}
                   RepositoryName: '$(Build.Repository.Name)'
                   SourceVersion: '$(Build.SourceVersion)'
