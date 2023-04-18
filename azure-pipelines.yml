@@ -49,6 +49,12 @@ stages:
                 $tags =  git tag | sort -V
                 Write-Host latest tag is:$tags[0]
             
+          - task: PowerShell@2
+            displayName: show git tag copied
+            inputs:
+              targetType: 'inline'
+              script: |                
+                Write-Host $(git tag -l v4* --sort=-v:refname | head -n 1)
           # - task: XplatGenerateReleaseNotes@4
           #   displayName: 'Release notes with template'
           #   inputs:
