@@ -161,6 +161,28 @@ stages:
             deploy:
               steps:
               - script: echo my Test deployment
+              - checkout: self
+                persistCredentials: true
+                fetchTags: "true"
+                fetchDepth: "500"
+              - script: |
+                   git --no-pager log ${{ variables.gittag }}..'Test' > inline-Devv.md                   
+                workingDirectory: '$(System.DefaultWorkingDirectory)'  
+                condition: ne(variables['Build.Reason'], 'PullRequest')
+                displayName: 'Git Log'
+
+              - publish: '$(System.DefaultWorkingDirectory)/inline-Devv.md'
+                artifact: ReleaseNotes-Test
+              - task: PublishMarkdownReports@1
+                inputs:
+                  contentPath: '$(System.DefaultWorkingDirectory)'
+                  indexFile: 'inline-Test.md'
+                  headingId: Test-releasenotes
+              - task: PublishPipelineArtifact@1
+                inputs:
+                  targetPath: '$(System.DefaultWorkingDirectory)/inline-Test.md'
+                  artifactType: 'pipeline'
+                  artifactName: ReleaseNotes-Test
               - template: generate-wiki-docs.yml
                 parameters:
                   workingDirectory: '$(Agent.BuildDirectory)'
@@ -182,6 +204,28 @@ stages:
             deploy:
               steps:
               - script: echo my Test deployment
+              - checkout: self
+                persistCredentials: true
+                fetchTags: "true"
+                fetchDepth: "500"
+              - script: |
+                   git --no-pager log ${{ variables.gittag }}..'Test' > inline-Devv.md                   
+                workingDirectory: '$(System.DefaultWorkingDirectory)'  
+                condition: ne(variables['Build.Reason'], 'PullRequest')
+                displayName: 'Git Log'
+
+              - publish: '$(System.DefaultWorkingDirectory)/inline-Devv.md'
+                artifact: ReleaseNotes-Test
+              - task: PublishMarkdownReports@1
+                inputs:
+                  contentPath: '$(System.DefaultWorkingDirectory)'
+                  indexFile: 'inline-Test.md'
+                  headingId: Test-releasenotes
+              - task: PublishPipelineArtifact@1
+                inputs:
+                  targetPath: '$(System.DefaultWorkingDirectory)/inline-Test.md'
+                  artifactType: 'pipeline'
+                  artifactName: ReleaseNotes-Test
               - template: generate-wiki-docs.yml
                 parameters:
                   workingDirectory: '$(Agent.BuildDirectory)'
@@ -203,6 +247,28 @@ stages:
             deploy:
               steps:
               - script: echo my Prod deployment
+              - checkout: self
+                persistCredentials: true
+                fetchTags: "true"
+                fetchDepth: "500"
+              - script: |
+                   git --no-pager log ${{ variables.gittag }}..'Test' > inline-Devv.md                   
+                workingDirectory: '$(System.DefaultWorkingDirectory)'  
+                condition: ne(variables['Build.Reason'], 'PullRequest')
+                displayName: 'Git Log'
+
+              - publish: '$(System.DefaultWorkingDirectory)/inline-Devv.md'
+                artifact: ReleaseNotes-Test
+              - task: PublishMarkdownReports@1
+                inputs:
+                  contentPath: '$(System.DefaultWorkingDirectory)'
+                  indexFile: 'inline-Test.md'
+                  headingId: Test-releasenotes
+              - task: PublishPipelineArtifact@1
+                inputs:
+                  targetPath: '$(System.DefaultWorkingDirectory)/inline-Test.md'
+                  artifactType: 'pipeline'
+                  artifactName: ReleaseNotes-Test
               - template: generate-wiki-docs.yml
                 parameters:
                   workingDirectory: '$(Agent.BuildDirectory)'
