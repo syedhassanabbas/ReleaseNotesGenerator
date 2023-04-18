@@ -34,15 +34,20 @@ stages:
             workingDirectory: $(Build.SourcesDirectory)
             condition: ne(variables['Build.Reason'], 'PullRequest')  
           - script: VERSION_TAG=`git describe --tags` && echo "##vso[task.setvariable variable=VERSION_TAG]$VERSION_TAG"
+            workingDirectory: $(Build.SourcesDirectory)
             displayName: Set the tag name as an environment variable
             
           - script: |
                echo "##vso[task.setvariable variable=VERSION_TAG]$VERSION_TAG"
             displayName: get the tag name 
             
-
-            workingDirectory: $(Build.SourcesDirectory)
-            condition: ne(variables['Build.Reason'], 'PullRequest')  
+          - task: PowerShell@2
+            displayName: update build number
+            inputs:
+              targetType: 'inline'
+              script: |
+                $tags =  git tag | sort -V
+                Write-Host latest tag is:$tags[0]
             
           # - task: XplatGenerateReleaseNotes@4
           #   displayName: 'Release notes with template'
